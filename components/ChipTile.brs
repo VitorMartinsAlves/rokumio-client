@@ -107,7 +107,7 @@ sub ApplyState()
         m.icon.blendColor = t.textSecondary
         m.text.color = t.textPrimary
     end if
-    if rowLit then m.top.opacity = 1.0 else m.top.opacity = 0.55
+    if rowLit then m.top.opacity = 1.0 else m.top.opacity = 0.68
 end sub
 
 sub onStateChanged()
