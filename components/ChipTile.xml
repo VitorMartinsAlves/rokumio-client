@@ -33,6 +33,12 @@
             loadDisplayMode="limitSize"
             translation="[4, 4]"
             uri="pkg:/images/chip.9.png" />
+        <Rectangle
+            id="chipActiveLine"
+            translation="[12, 64]"
+            width="48"
+            height="4"
+            opacity="0.0" />
         <Poster
             id="chipIcon"
             width="48"
