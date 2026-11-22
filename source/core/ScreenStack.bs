@@ -82,7 +82,7 @@ class ScreenStack
         node.screenActive = true
         node.SetFocus(true)
         node.callFunc("OnEnter", params)
-        animateTransition()
+        m.animateTransition()
     end sub
 
     function pop() as boolean
@@ -107,7 +107,7 @@ class ScreenStack
             shown.node.SetFocus(true)
             shown.node.callFunc("OnEnter", invalid)
         end if
-        animateTransition()
+        m.animateTransition()
         return true
     end function
 
