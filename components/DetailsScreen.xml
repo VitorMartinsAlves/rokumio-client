@@ -63,8 +63,8 @@
             id="detailType"
             translation="[166, 192]"
             width="900"
-            height="30"
-            font="font:SmallerSystemFont" />
+            height="34"
+            font="font:SmallSystemFont" />
         <Group id="detailRating" translation="[166, 232]" visible="false">
             <Poster id="detailImdbLogo" width="64" height="32" loadWidth="64" loadHeight="32" loadDisplayMode="scaleToFit" uri="pkg:/images/imdb.png" />
             <Label id="detailRatingText" translation="[76, 0]" width="110" height="36" vertAlign="center" font="font:LargeBoldSystemFont" />
@@ -73,8 +73,8 @@
             id="detailGenres"
             translation="[166, 283]"
             width="860"
-            height="32"
-            font="font:SmallerSystemFont" />
+            height="36"
+            font="font:SmallSystemFont" />
         <Label
             id="detailDesc"
             translation="[166, 333]"
@@ -82,7 +82,7 @@
             height="265"
             wrap="true"
             vertAlign="top"
-            font="font:SmallSystemFont" />
+            font="font:MediumSystemFont" />
 
         <!-- The shared chips row: a ChipsRow (standalone focusable tiles,
              the rail model) — the row owns Left/Right/OK and publishes OK
