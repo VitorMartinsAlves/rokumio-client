@@ -117,6 +117,16 @@ class ScreenStack
         return shown.node.callFunc("OnBackPressed") = true
     end function
 
+    sub animateTransition()
+        if m.scene = invalid then return
+        scrim = m.scene.FindNode("screenTransitionScrim")
+        anim = m.scene.FindNode("screenTransitionAnim")
+        if scrim = invalid or anim = invalid then return
+        anim.control = "stop"
+        scrim.opacity = 0.88
+        anim.control = "start"
+    end sub
+
     function popTo(screenId as string) as boolean
         while m.count() > 0
             if m.top().id = screenId then return true
@@ -126,17 +136,3 @@ class ScreenStack
         return false
     end function
 end class
-
-
-' Reveal the incoming screen with a brief fade from the app background. The
-' overlay is visual only: focus and key handling are handed to the new screen
-' before the animation starts, so animation never gates remote input.
-sub animateTransition()
-    if m.scene = invalid then return
-    scrim = m.scene.FindNode("screenTransitionScrim")
-    anim = m.scene.FindNode("screenTransitionAnim")
-    if scrim = invalid or anim = invalid then return
-    anim.control = "stop"
-    scrim.opacity = 0.88
-    anim.control = "start"
-end sub
