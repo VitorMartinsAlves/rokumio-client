@@ -1097,7 +1097,7 @@ sub UpdateHeroActions(rowIndex as integer, itemIndex as integer, meta as object)
         { title: Lang("home", "viewDetails"), icon: "pkg:/images/question.png", width: 232, height: 58, active: true }
     ]
     if row.source <> "library"
-        actions.Push({ title: Lang("home", "browseCatalog"), icon: "pkg:/images/discover.png", width: 230, height: 58 })
+        actions.Push({ title: Lang("home", "browseCatalog"), icon: "pkg:/images/discover.png", width: 264, height: 58 })
     end if
     m.heroActions.callFunc("SetChips", actions)
     m.heroActions.visible = true
