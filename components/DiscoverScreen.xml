@@ -33,9 +33,9 @@
 
         <RowList
             id="discoverGrid"
-            translation="[90, 632]"
+            translation="[96, 632]"
             numRows="1"
-            itemSize="[1800, 405]"
+            itemSize="[1728, 405]"
             itemSpacing="[0, 18]"
             rowItemSize="[[270, 405]]"
             rowItemSpacing="[[18, 0]]"
