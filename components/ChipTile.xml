@@ -15,6 +15,7 @@
         <field id="rowFocused" type="boolean" alwaysNotify="true" />
         <field id="chipWidth" type="integer" alwaysNotify="true" />
         <field id="flat" type="boolean" value="false" />
+        <field id="navStyle" type="boolean" value="false" />
         <function name="SetChip" />
     </interface>
 
