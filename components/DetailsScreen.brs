@@ -527,29 +527,27 @@ sub FitHeroLogo()
 
     m.heroLogo.width = logoWidth
     m.heroLogo.height = logoHeight
-    m.heroLogo.translation = [162, 46 + Int((190 - logoHeight) / 2)]
-    m.detailType.translation = [166, 250]
-    m.detailRating.translation = [166, 292]
-    m.detailGenres.translation = [166, 336]
-    m.detailDesc.translation = [166, 378]
-    m.detailDesc.width = 720
-    m.detailDesc.height = 215
+    m.heroLogo.translation = [136, 126 + Int((115 - logoHeight) / 2)]
+    m.detailType.translation = [140, 250]
+    m.detailRating.translation = [140, 294]
+    m.detailGenres.translation = [140, 342]
+    m.detailDesc.translation = [140, 390]
+    m.detailDesc.width = 700
+    m.detailDesc.height = 108
     m.heroLogo.visible = true
     m.detailName.visible = false
 end sub
 
 sub ResetHeroLogoLayout()
-    m.heroLogo.translation = [162, 48]
-    m.heroLogo.width = 820
-    m.heroLogo.height = 460
-    m.detailType.translation = [166, 192]
-    m.detailRating.translation = [166, 232]
-    m.detailGenres.translation = [166, 283]
-    m.detailDesc.translation = [166, 333]
-    m.detailDesc.width = 720
-    m.detailDesc.height = 265
-    m.detailDesc.width = 860
-    m.detailDesc.height = 215
+    m.heroLogo.translation = [136, 126]
+    m.heroLogo.width = 680
+    m.heroLogo.height = 160
+    m.detailType.translation = [140, 250]
+    m.detailRating.translation = [140, 294]
+    m.detailGenres.translation = [140, 342]
+    m.detailDesc.translation = [140, 390]
+    m.detailDesc.width = 700
+    m.detailDesc.height = 108
 end sub
 
 function TypeLabel(metaType as string) as string
