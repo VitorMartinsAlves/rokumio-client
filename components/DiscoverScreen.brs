@@ -23,10 +23,12 @@ sub init()
 
     m.hero = m.top.FindNode("hero")
     m.filtersHint = m.top.FindNode("filtersHint")
+    m.filtersHintLabel = m.top.FindNode("filtersHintLabel")
     m.filtersHintFade = m.top.FindNode("filtersHintFade")
 
     t = Theme()
     m.status.color = t.accent
+    if m.filtersHintLabel <> invalid then m.filtersHintLabel.color = t.textSecondary
     m.grid.focusBitmapBlendColor = t.accentFocus
 
     m.filterBar.ObserveField("chipActivated", "onChipActivated")
@@ -60,6 +62,7 @@ end sub
 
 function OnEnter(params as object) as void
     RefreshTexts()
+    if m.filtersHintLabel <> invalid then m.filtersHintLabel.text = Lang("common", "filtersShortcut")
     if m.filterBar.callFunc("IsMenuOpen") then m.filterBar.callFunc("HideMenu")
 
     ' Return from a child screen (ScreenStack pop passes invalid params): restore
@@ -691,25 +694,29 @@ end sub
 ' the first row (Up is consumed there by the RowList) and the grid holds focus.
 ' It fades in beside the chip row and vanishes the moment it is irrelevant.
 sub UpdateFiltersHint()
-    if m.filtersHint = invalid then return
+    if m.filtersHint = invalid or m.filtersHintLabel = invalid then return
     visible = false
     if m.grid.HasFocus()
         data = m.grid.rowItemFocused
         if data <> invalid and data.Count() >= 2 and data[0] >= 1 then visible = true
     end if
-    if m.filtersHint.visible = visible then return
+    if m.filtersHint.visible = visible and m.filtersHintLabel.visible = visible then return
     m.filtersHint.visible = visible
+    m.filtersHintLabel.visible = visible
     if m.filtersHintFade = invalid then
         m.filtersHint.opacity = 1
+        m.filtersHintLabel.opacity = 1
         return
     end if
     if visible
         m.filtersHintFade.control = "stop"
         m.filtersHint.opacity = 0
+        m.filtersHintLabel.opacity = 0
         m.filtersHintFade.control = "start"
     else
         m.filtersHintFade.control = "stop"
         m.filtersHint.opacity = 0
+        m.filtersHintLabel.opacity = 0
     end if
 end sub
 
