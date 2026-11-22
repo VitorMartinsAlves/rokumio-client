@@ -82,6 +82,7 @@ class ScreenStack
         node.screenActive = true
         node.SetFocus(true)
         node.callFunc("OnEnter", params)
+        animateTransition()
     end sub
 
     function pop() as boolean
@@ -106,6 +107,7 @@ class ScreenStack
             shown.node.SetFocus(true)
             shown.node.callFunc("OnEnter", invalid)
         end if
+        animateTransition()
         return true
     end function
 
@@ -124,3 +126,17 @@ class ScreenStack
         return false
     end function
 end class
+
+
+' Reveal the incoming screen with a brief fade from the app background. The
+' overlay is visual only: focus and key handling are handed to the new screen
+' before the animation starts, so animation never gates remote input.
+sub animateTransition()
+    if m.scene = invalid then return
+    scrim = m.scene.FindNode("screenTransitionScrim")
+    anim = m.scene.FindNode("screenTransitionAnim")
+    if scrim = invalid or anim = invalid then return
+    anim.control = "stop"
+    scrim.opacity = 0.88
+    anim.control = "start"
+end sub
