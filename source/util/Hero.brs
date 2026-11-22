@@ -391,15 +391,15 @@ sub HeroApplyLayout(mode as string, showTitle = true as boolean)
     m.heroLayoutMode = "title"
     m.heroLogo.visible = false
     m.heroTitle.visible = showTitle
-    m.heroLogo.translation = [162, 48]
-    m.heroLogo.width = 820
-    m.heroLogo.height = 460
-    m.heroMeta.translation = [166, 192]
-    m.heroRating.translation = [166, 232]
-    m.heroGenres.translation = [166, 283]
-    m.heroDescription.translation = [166, 333]
-    m.heroDescription.width = 620
-    m.heroDescription.height = 185
+    m.heroLogo.translation = [136, 126]
+    m.heroLogo.width = 680
+    m.heroLogo.height = 160
+    m.heroMeta.translation = [140, 250]
+    m.heroRating.translation = [140, 294]
+    m.heroGenres.translation = [140, 342]
+    m.heroDescription.translation = [140, 390]
+    m.heroDescription.width = 700
+    m.heroDescription.height = 108
 end sub
 
 sub HeroFitLogo()
@@ -411,13 +411,13 @@ sub HeroFitLogo()
     m.heroLogo.width = logoWidth
     m.heroLogo.height = logoHeight
     m.heroLayoutMode = "wide"
-    m.heroLogo.translation = [162, 46 + Int((190 - logoHeight) / 2)]
-    m.heroMeta.translation = [166, 250]
-    m.heroRating.translation = [166, 292]
-    m.heroGenres.translation = [166, 336]
-    m.heroDescription.translation = [166, 378]
-    m.heroDescription.width = 620
-    m.heroDescription.height = 175
+    m.heroLogo.translation = [136, 126 + Int((115 - logoHeight) / 2)]
+    m.heroMeta.translation = [140, 250]
+    m.heroRating.translation = [140, 294]
+    m.heroGenres.translation = [140, 342]
+    m.heroDescription.translation = [140, 390]
+    m.heroDescription.width = 700
+    m.heroDescription.height = 108
     m.heroLogo.visible = true
     m.heroTitle.visible = false
 end sub
