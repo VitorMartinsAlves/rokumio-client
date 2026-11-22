@@ -37,7 +37,10 @@ sub UpdateLook()
         m.title.color = t.textPrimary
         m.value.color = t.textSecondary
     end if
-    if m.top.rowHasFocus then m.top.opacity = 1.0 else m.top.opacity = 0.55
+    opacity = 0.68
+    if m.top.rowHasFocus then opacity = 0.80
+    if m.top.itemHasFocus then opacity = 1.0
+    m.top.opacity = opacity
 end sub
 
 sub onItemContentChanged()
