@@ -29,6 +29,17 @@
         <Timer id="heroMetaDelay" duration="0.35" repeat="false" />
         <Timer id="heroPrefetchDelay" duration="0.45" repeat="false" />
         <BrowseHero id="hero" />
+        <Poster
+            id="brandLogo"
+            translation="[96, 40]"
+            width="184"
+            height="42"
+            loadWidth="184"
+            loadHeight="42"
+            loadDisplayMode="limitSize"
+            uri="pkg:/images/logo_expanded.png" />
+        <ChipsRow id="topNav" translation="[330, 34]" flatTiles="true" />
+        <ChipsRow id="heroActions" translation="[136, 504]" />
         <Label
             id="homeEmpty"
             translation="[172, 570]"
@@ -45,79 +56,19 @@
              item renders as a PosterTile component. Content is set in code. -->
         <RowList
             id="catalog"
-            translation="[122, 570]"
+            translation="[96, 582]"
             numRows="2"
-            itemSize="[1702, 405]"
-            itemSpacing="[0, 66]"
+            itemSize="[1728, 405]"
+            itemSpacing="[0, 48]"
             rowItemSize="[[270, 405]]"
-            rowItemSpacing="[[16, 0]]"
+            rowItemSpacing="[[18, 0]]"
             showRowLabel="[true]"
             rowLabelFont="font:MediumBoldSystemFont"
             drawFocusFeedback="true"
             itemComponentName="PosterTile" />
-        <!-- Left rail: the vertical icon menu (Search, Discover, Library,
-             Add-ons, Settings, Support). Collapsed to icons; focusing it
-             widens the backdrop over the grid and the focused tile shows
-             its name. Tiles are RailTile children of the rail group. -->
-        <Rectangle id="railBg" width="112" height="1080"/>
-        <Poster
-            id="railBrand"
-            translation="[32, 62]"
-            width="48"
-            height="32"
-            loadWidth="48"
-            loadHeight="32"
-            loadDisplayMode="limitSize"
-            uri="pkg:/images/logo.png" />
-        <Poster
-            id="railBrandExpanded"
-            translation="[83, 62]"
-            width="154"
-            height="32"
-            loadWidth="154"
-            loadHeight="32"
-            loadDisplayMode="limitSize"
-            opacity="0.0"
-            uri="pkg:/images/logo_expanded.png" />
-        <Group id="rail" translation="[0, 380]" />
-        <Animation id="railBrandExpandAnim" duration="0.28" repeat="false">
-            <FloatFieldInterpolator
-                id="railBrandMarkExpandInterp"
-                fieldToInterp="railBrand.opacity"
-                key="[0.0, 1.0]"
-                keyValue="[1.0, 0.0]" />
-            <FloatFieldInterpolator
-                id="railBrandWordmarkExpandInterp"
-                fieldToInterp="railBrandExpanded.opacity"
-                key="[0.0, 1.0]"
-                keyValue="[0.0, 1.0]" />
-        </Animation>
-        <Animation id="railBrandCollapseAnim" duration="0.18" repeat="false">
-            <FloatFieldInterpolator
-                id="railBrandMarkCollapseInterp"
-                fieldToInterp="railBrand.opacity"
-                key="[0.0, 1.0]"
-                keyValue="[0.0, 1.0]" />
-            <FloatFieldInterpolator
-                id="railBrandWordmarkCollapseInterp"
-                fieldToInterp="railBrandExpanded.opacity"
-                key="[0.0, 1.0]"
-                keyValue="[1.0, 0.0]" />
-        </Animation>
-        <Animation id="railExpandAnim" duration="0.28" repeat="false">
-            <FloatFieldInterpolator
-                id="railExpandInterp"
-                fieldToInterp="railBg.width"
-                key="[0.0, 0.6, 1.0]"
-                keyValue="[112.0, 286.0, 320.0]" />
-        </Animation>
-        <Animation id="railCollapseAnim" duration="0.18" repeat="false">
-            <FloatFieldInterpolator
-                id="railCollapseInterp"
-                fieldToInterp="railBg.width"
-                key="[0.0, 0.6, 1.0]"
-                keyValue="[320.0, 166.0, 112.0]" />
-        </Animation>
+        <!-- The cinematic hero remains edge-to-edge; title actions and the
+             content rails sit above its lower fade. Navigation lives in the
+             top bar, matching modern streaming services. -->
 
     </children>
 </component>
