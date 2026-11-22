@@ -157,7 +157,10 @@
             "loading": "Loading…",
             "emptyCatalogRows": "No catalog rows are showing. Install catalog add-ons or enable rows in Settings → Home.",
             "refreshing": "Refreshing…",
-            "seeMore": "See more"
+            "seeMore": "See more",
+            "homeNav": "Home",
+            "viewDetails": "View details",
+            "browseCatalog": "Explore catalog"
         },
         "homeRows": {
             "title": "Home catalog rows",
@@ -509,7 +512,10 @@
             "loading": "Cargando…",
             "emptyCatalogRows": "No se muestran filas de catálogo. Instala add-ons de catálogo o activa filas en Ajustes → Inicio.",
             "refreshing": "Actualizando…",
-            "seeMore": "Ver más"
+            "seeMore": "Ver más",
+            "homeNav": "Inicio",
+            "viewDetails": "Ver detalles",
+            "browseCatalog": "Explorar catálogo"
         },
         "homeRows": {
             "title": "Catálogos de Home",
