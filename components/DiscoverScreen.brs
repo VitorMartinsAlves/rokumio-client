@@ -37,8 +37,8 @@ sub init()
     m.grid.ObserveField("rowItemFocused", "onGridItemFocused")
 
     m.chunk = 6
-    ' The grid's row budget: RowList translation x 90 + itemSize width 1800,
-    ' with 18px gaps (rowItemSpacing), fits 6 standard poster tiles per row.
+    ' The grid uses the 5% TV safe-area margin (x=96, width=1728).
+    ' Six standard 270px posters plus five 18px gaps fit in that viewport.
     m.rowWidth = 1728
     m.rowGap = 18
     m.sources = []
