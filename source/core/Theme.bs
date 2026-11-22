@@ -38,6 +38,7 @@ function Theme() as object
             dropdownBg: "0x101813FF"
             playerBg: "0x000000FF"
             scrim: "0x00000099"
+            heroScrim: "0x0000004D"
             progressTrack: "0x00000073"
             progressFill: "0x46E0A3FF"
             glyphPlate: "0x000000A6"
