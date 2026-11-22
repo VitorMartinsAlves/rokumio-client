@@ -1,0 +1,35 @@
+name: Roku build and tests
+
+on:
+  push:
+    branches:
+      - main
+      - uxui/premium-streaming-redesign
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Roku package
+        run: npm run build
+
+      - name: Run automated tests
+        run: npm test

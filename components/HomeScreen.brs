@@ -26,14 +26,11 @@ sub init()
     m.catalog = m.top.FindNode("catalog")
     m.catalog.ObserveField("rowItemSelected", "onRowItemSelected")
     m.catalog.ObserveField("rowItemFocused", "onCatalogItemFocused")
-    m.rail = m.top.FindNode("rail")
-    m.railExpandAnim = m.top.FindNode("railExpandAnim")
-    m.railCollapseAnim = m.top.FindNode("railCollapseAnim")
-    m.railBrand = m.top.FindNode("railBrand")
-    m.railBrandExpanded = m.top.FindNode("railBrandExpanded")
-    m.railBrandExpandAnim = m.top.FindNode("railBrandExpandAnim")
-    m.railBrandCollapseAnim = m.top.FindNode("railBrandCollapseAnim")
-    m.railBg = m.top.FindNode("railBg")
+    m.topNav = m.top.FindNode("topNav")
+    m.heroActions = m.top.FindNode("heroActions")
+    m.brandLogo = m.top.FindNode("brandLogo")
+    m.topNav.ObserveField("selection", "onTopNavSelected")
+    m.heroActions.ObserveField("selection", "onHeroActionSelected")
     m.hero = m.top.FindNode("hero")
     m.heroMetaDelay = m.top.FindNode("heroMetaDelay")
     m.heroMetaDelay.ObserveField("fire", "onHeroMetaDelayFire")
@@ -48,10 +45,15 @@ sub init()
     m.heroFocusKey = ""
     m.homeEmpty = m.top.FindNode("homeEmpty")
     m.heroBeforeBusy = ""
+    m.navBuilt = false
+    m.navLanguage = ""
+    m.navRememberedIndex = 0
+    m.homeFocusArea = "catalog"
+    m.heroActionContext = invalid
+    m.topNavEntries = []
 
     t = Theme()
     m.homeEmpty.color = t.textSecondary
-    m.railBg.color = t.navBg
     m.catalog.rowLabelOffset = [0,10]
     m.catalog.focusBitmapBlendColor = t.accentFocus
 
@@ -68,10 +70,7 @@ sub init()
     m.cwSignature = ""
     m.catalogSignature = ""
     m.catalogVisibilitySignature = ""
-    m.railBuilt = false
-    m.railLanguage = ""
-    m.railFocusIndex = -1
-    m.railRememberedIndex = 0
+    m.heroActions.visible = false
 end sub
 
 ' Kick off the catalog walk. The walking happens off the UI thread in a
@@ -306,6 +305,7 @@ sub UpdateHomeHero(position as dynamic)
     metas = m.gridRows[rowIndex].metas
     if metas = invalid or itemIndex < 0 or itemIndex >= metas.Count() then return
     meta = metas[itemIndex]
+    UpdateHeroActions(rowIndex, itemIndex, meta)
     if meta <> invalid and meta.seeMore = true
         ' Keep the previously shown hero artwork/details; "see more" is an action,
         ' not a title to preview.
@@ -896,9 +896,9 @@ end function
 function OnEnter(params as object) as void
     ' Pull the current language before rebuilding the rail or grid labels.
     RefreshTexts()
-    if not m.railBuilt or m.railLanguage <> TextsLanguage()
-        BuildRail()
-        m.railLanguage = TextsLanguage()
+    if not m.navBuilt or m.navLanguage <> TextsLanguage()
+        BuildTopNav()
+        m.navLanguage = TextsLanguage()
     end if
     StartCatalogLoad()
     sig = ContinueWatchingSignature()
@@ -925,9 +925,12 @@ function OnEnter(params as object) as void
     ' The place the cursor goes is the place it was left: the grid for a trip
     ' into the tiles, the rail — at the icon the user left it on — for a trip
     ' opened from the rail. BlurFocus records which had it.
-    if m.railWasFocus = true
-        FocusRail()
+    if m.homeFocusArea = "topNav"
+        FocusTopNav()
+    else if m.homeFocusArea = "heroActions" and m.heroActions.GetChildCount() > 0 and m.heroActions.visible
+        FocusHeroActions()
     else
+        m.homeFocusArea = "catalog"
         m.catalog.SetFocus(true)
     end if
     if m.catalog.rowItemFocused <> invalid then UpdateHomeHero(m.catalog.rowItemFocused)
@@ -948,122 +951,161 @@ end function
 ' Continue-Watching open still in flight is cancelled: the user moved on, so
 ' its Details push must not land on the next screen.
 sub BlurFocus()
-    m.railWasFocus = m.railFocusIndex >= 0
-    CollapseRail()
+    if m.topNav.callFunc("HoldingFocus")
+        m.homeFocusArea = "topNav"
+        m.navRememberedIndex = m.topNav.callFunc("Selected")
+    else if m.heroActions.callFunc("HoldingFocus")
+        m.homeFocusArea = "heroActions"
+    else
+        m.homeFocusArea = "catalog"
+    end if
+    m.topNav.callFunc("Blur")
+    m.heroActions.callFunc("Blur")
     CancelHeroMetaRequest()
     CancelHeroPrefetch()
     if m.hero <> invalid then m.hero.callFunc("Clear")
     CancelOpen()
 end sub
 
-' The left rail: a fixed one-column icon menu. Built once (nodes created in init
-' can be dropped pre-Show, so it happens on first OnEnter like the catalog). The
-' last row is a modal (the support dialog), so its entry carries dialog = true
-' and selection routes it through the pushRequest contract the same way;
-' MainScene picks it up and shows the native dialog instead of pushing a
-' stack screen.
-sub BuildRail()
+' The top bar is the persistent navigation model for the Home experience.
+' ChipsRow owns D-pad movement; Home only maps a selected destination into the
+' existing ScreenStack request contract.
+sub BuildTopNav()
     entries = [
-        { glyph: "pkg:/images/search.png", name: Lang("home", "railSearch"), screen: "searchScreen" }
-        { glyph: "pkg:/images/discover.png", name: Lang("home", "railDiscover"), screen: "discoverScreen" }
-        { glyph: "pkg:/images/library.png", name: Lang("home", "railLibrary"), screen: "libraryScreen" }
-        { glyph: "pkg:/images/puzzle.png", name: Lang("home", "railAddons"), screen: "addonsScreen" }
-        { glyph: "pkg:/images/settings.png", name: Lang("home", "railSettings"), screen: "settingsScreen" }
-        { glyph: "pkg:/images/support.png", name: Lang("home", "railSupport"), screen: "supportDialog", dialog: true }
+        { title: Lang("home", "homeNav"), destination: "homeScreen", width: 112 }
+        { title: Lang("home", "railDiscover"), destination: "discoverScreen", width: 142 }
+        { title: Lang("home", "railLibrary"), destination: "libraryScreen", width: 126 }
+        { title: Lang("home", "railSearch"), destination: "searchScreen", width: 112 }
+        { title: Lang("home", "railAddons"), destination: "addonsScreen", width: 128 }
+        { title: Lang("home", "railSettings"), destination: "settingsScreen", width: 132 }
+        { title: Lang("home", "railSupport"), destination: "supportDialog", width: 126, dialog: true }
     ]
-    m.railEntries = entries
-    m.railFocusIndex = -1
-    if m.railRememberedIndex >= entries.Count() then m.railRememberedIndex = 0
-    while m.rail.GetChildCount() > 0
-        m.rail.RemoveChildIndex(0)
-    end while
+    m.topNavEntries = entries
+    if m.navRememberedIndex >= entries.Count() then m.navRememberedIndex = 0
+    chips = []
     for i = 0 to entries.Count() - 1
         entry = entries[i]
-        tile = m.rail.CreateChild("RailTile")
-        tile.focusable = true
-        tile.translation = [0, i * 120]
-        tile.callFunc("SetTile", entry.glyph, entry.name)
+        chips.Push({
+            title: entry.title
+            width: entry.width
+            height: 58
+            active: (entry.destination = "homeScreen")
+        })
     end for
-    m.railBuilt = true
+    m.topNav.callFunc("SetChips", chips)
+    m.navBuilt = true
 end sub
 
-sub FocusRail()
-    if m.railFocusIndex < 0 then m.railFocusIndex = m.railRememberedIndex
-    if m.railFocusIndex >= m.rail.GetChildCount() then m.railFocusIndex = 0
-    m.railRememberedIndex = m.railFocusIndex
-    SetRailExpanded(true)
-    m.rail.GetChild(m.railFocusIndex).focused = true
-    m.rail.GetChild(m.railFocusIndex).SetFocus(true)
-    if m.railExpandAnim <> invalid
-        m.railCollapseAnim.control = "stop"
-        m.railExpandAnim.control = "stop"
-        m.railExpandAnim.control = "start"
+sub FocusTopNav()
+    if m.topNav.GetChildCount() = 0 then return
+    m.heroActions.callFunc("Blur")
+    m.topNav.callFunc("FocusChip", m.navRememberedIndex)
+    m.homeFocusArea = "topNav"
+end sub
+
+sub FocusHeroActions()
+    if not m.heroActions.visible or m.heroActions.GetChildCount() = 0 then
+        FocusTopNav()
+        return
     end if
+    m.topNav.callFunc("Blur")
+    m.heroActions.callFunc("FocusChip", 0)
+    m.homeFocusArea = "heroActions"
 end sub
 
-sub CollapseRail()
-    if m.railFocusIndex >= 0 and m.railFocusIndex < m.rail.GetChildCount()
-        m.railRememberedIndex = m.railFocusIndex
-        m.rail.GetChild(m.railFocusIndex).focused = false
+sub SelectTopNavEntry()
+    index = m.topNav.callFunc("Selected")
+    if index < 0 or index >= m.topNavEntries.Count() then return
+    m.navRememberedIndex = index
+    entry = m.topNavEntries[index]
+    if entry.destination = "homeScreen"
+        m.topNav.callFunc("Blur")
+        m.heroActions.callFunc("Blur")
+        if m.catalog.content <> invalid and m.catalog.numRows > 0 then m.catalog.jumpToRowItem = [0, 0]
+        m.catalog.SetFocus(true)
+        m.homeFocusArea = "catalog"
+        return
     end if
-    m.railFocusIndex = -1
-    SetRailExpanded(false)
-    if m.railCollapseAnim <> invalid
-        m.railExpandAnim.control = "stop"
-        m.railCollapseAnim.control = "stop"
-        m.railCollapseAnim.control = "start"
-    end if
-end sub
-
-sub SetRailExpanded(expanded as boolean)
-    for i = 0 to m.rail.GetChildCount() - 1
-        m.rail.GetChild(i).expanded = expanded
-    end for
-    if expanded
-        m.railBg.color = Theme().navBgExpanded
-        m.railBrandCollapseAnim.control = "stop"
-        m.railBrandExpandAnim.control = "stop"
-        m.railBrandExpandAnim.control = "start"
-    else
-        m.railBg.color = Theme().navBg
-        m.railBrandExpandAnim.control = "stop"
-        m.railBrandCollapseAnim.control = "stop"
-        m.railBrandCollapseAnim.control = "start"
-    end if
-end sub
-
-sub MoveRailFocus(delta as integer)
-    if m.railFocusIndex < 0 then return
-    nextIndex = m.railFocusIndex + delta
-    if nextIndex < 0 or nextIndex >= m.rail.GetChildCount() then return
-    m.rail.GetChild(m.railFocusIndex).focused = false
-    m.railFocusIndex = nextIndex
-    m.railRememberedIndex = nextIndex
-    m.rail.GetChild(nextIndex).focused = true
-    m.rail.GetChild(nextIndex).SetFocus(true)
-end sub
-
-' OK on a rail icon: an action request the Scene routes. Stack screens publish
-' screen + params; the support modal adds dialog = true, which must survive into
-' the pushRequest or the Scene would push the dialog node as a bogus stack
-' screen and hide Home instead of showing the native dialog over it.
-sub SelectRailEntry()
-    if m.railFocusIndex < 0 or m.railEntries = invalid or m.railFocusIndex >= m.railEntries.Count() then return
-    entry = m.railEntries[m.railFocusIndex]
-    request = {
-        screen: entry.screen
-        params: {}
-    }
+    request = { screen: entry.destination, params: {} }
     if entry.dialog = true then request.dialog = true
     m.top.pushRequest = request
 end sub
 
-' Cross-focus between the rail and the catalog grid. Left from the grid enters
-' the rail; Right from the rail enters the grid. The rail tiles are plain
-' focusable nodes, so Up/Down/OK are handled here and the default focus
-' navigation is suppressed while the rail owns focus.
-' Replay/instantreplay (↺) forces a full home refresh so partial/failed loads
-' on poor connections can be retried without leaving and re-entering Home.
+sub onTopNavSelected()
+    SelectTopNavEntry()
+end sub
+
+sub onHeroActionSelected()
+    index = m.heroActions.callFunc("Selected")
+    context = m.heroActionContext
+    if context = invalid then return
+    rowIndex = context.row
+    itemIndex = context.item
+    if rowIndex < 0 or rowIndex >= m.gridRows.Count() then return
+    if itemIndex < 0 or itemIndex >= m.gridRows[rowIndex].metas.Count() then return
+    item = m.gridRows[rowIndex].metas[itemIndex]
+    row = m.gridRows[rowIndex]
+
+    if index = 0
+        if row.source = "library"
+            OpenContinueWatching(item)
+        else
+            if not HomeMetaOpenable(item) then return
+            m.top.pushRequest = {
+                screen: "detailsScreen"
+                params: {
+                    addonAddress: row.addonAddress
+                    meta: item
+                    heroTextureReady: (m.hero <> invalid and m.hero.callFunc("PosterReady") = true)
+                }
+            }
+        end if
+    else if index = 1
+        m.top.pushRequest = {
+            screen: "discoverScreen"
+            params: {
+                targetCatalog: {
+                    addonAddress: row.addonAddress
+                    catalogId: row.catalogId
+                    metaType: row.metaType
+                }
+            }
+        }
+    end if
+end sub
+
+sub UpdateHeroActions(rowIndex as integer, itemIndex as integer, meta as object)
+    if rowIndex < 0 or rowIndex >= m.gridRows.Count()
+        m.heroActionContext = invalid
+        m.heroActions.visible = false
+        return
+    end if
+    row = m.gridRows[rowIndex]
+    if meta = invalid or (meta.seeMore = true)
+        m.heroActionContext = invalid
+        m.heroActions.visible = false
+        return
+    end if
+    if row.source <> "library" and not HomeMetaOpenable(meta)
+        m.heroActionContext = invalid
+        m.heroActions.visible = false
+        return
+    end if
+
+    m.heroActionContext = { row: rowIndex, item: itemIndex }
+    actions = [
+        { title: Lang("home", "viewDetails"), icon: "pkg:/images/question.png", width: 232, height: 58, active: true }
+    ]
+    if row.source <> "library"
+        actions.Push({ title: Lang("home", "browseCatalog"), icon: "pkg:/images/discover.png", width: 264, height: 58 })
+    end if
+    m.heroActions.callFunc("SetChips", actions)
+    m.heroActions.visible = true
+end sub
+
+' D-pad travel follows the visual hierarchy: navigation → hero actions →
+' catalogue. Up returns to the nearest level, while Options is a shortcut to
+' the persistent navigation from anywhere in the Home screen.
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
     if key = "instantreplay" or key = "replay"
@@ -1074,36 +1116,57 @@ function onKeyEvent(key as string, press as boolean) as boolean
         return true
     end if
 
-    if m.railFocusIndex >= 0
-        if key = "right"
-            CollapseRail()
-            m.catalog.SetFocus(true)
+    if m.topNav.callFunc("HoldingFocus")
+        if key = "down"
+            BlurTopNav()
+            if m.heroActions.visible and m.heroActions.GetChildCount() > 0
+                FocusHeroActions()
+            else
+                m.catalog.SetFocus(true)
+                m.homeFocusArea = "catalog"
+            end if
             return true
-        else if key = "up"
-            MoveRailFocus(-1)
-            return true
-        else if key = "down"
-            MoveRailFocus(1)
-            return true
-        else if key = "OK"
-            SelectRailEntry()
-            return true
-        else if key = "options"
-            CollapseRail()
-            m.catalog.SetFocus(true)
+        else if key = "up" or key = "options"
             return true
         end if
-    else if key = "left" and m.catalog.HasFocus()
-        FocusRail()
-        return true
-    else if key = "options"
-        if m.catalog.HasFocus()
-            FocusRail()
+    else if m.heroActions.callFunc("HoldingFocus")
+        if key = "up"
+            m.heroActions.callFunc("Blur")
+            FocusTopNav()
+            return true
+        else if key = "down"
+            m.heroActions.callFunc("Blur")
+            m.catalog.SetFocus(true)
+            m.homeFocusArea = "catalog"
+            return true
+        else if key = "options"
+            FocusTopNav()
+            return true
+        end if
+    else if m.catalog.HasFocus()
+        if key = "up"
+            position = m.catalog.rowItemFocused
+            if position <> invalid and position.Count() >= 2 and position[0] = 0
+                if m.heroActions.visible and m.heroActions.GetChildCount() > 0
+                    FocusHeroActions()
+                else
+                    FocusTopNav()
+                end if
+                return true
+            end if
+        else if key = "options"
+            FocusTopNav()
             return true
         end if
     end if
     return false
 end function
+
+sub BlurTopNav()
+    index = m.topNav.callFunc("Selected")
+    if index >= 0 then m.navRememberedIndex = index
+    m.topNav.callFunc("Blur")
+end sub
 
 ' rowItemSelected is a field observer, so this receives the roSGNodeEvent. Its
 ' data is a [row, itemIndex] pair; the selected name comes from the row's own

@@ -78,6 +78,18 @@
              now letterbox where scaleToFill used to crop, exposing the row
              behind the tile edges. -->
         <Poster id="poster" width="270" height="405" loadWidth="270" loadHeight="405" loadDisplayMode="scaleToFit" visible="true" />
+        <Animation id="posterFocusIn" duration="0.14" repeat="false" easeFunction="outQuad">
+            <Vector2DFieldInterpolator
+                fieldToInterp="poster.scale"
+                key="[0.0, 1.0]"
+                keyValue="[[1.0, 1.0], [1.025, 1.025]]" />
+        </Animation>
+        <Animation id="posterFocusOut" duration="0.12" repeat="false" easeFunction="outQuad">
+            <Vector2DFieldInterpolator
+                fieldToInterp="poster.scale"
+                key="[0.0, 1.0]"
+                keyValue="[[1.025, 1.025], [1.0, 1.0]]" />
+        </Animation>
 <!-- Optional continue-watching progress bar, painted on top of
              the poster's bottom edge (8px strip spanning the tile). The dark
              track is the full tile width and sits flush at x=0; the mint fill's

@@ -30,6 +30,7 @@ sub SetChips(entries as object)
         tile = m.top.CreateChild("ChipTile")
         tile.focusable = true
         tile.translation = [x, 0]
+        tile.navStyle = m.top.flatTiles
         width = ChipWidth(entry)
         height = ChipHeight(entry)
         tile.callFunc("SetChip", ChipTitle(entry), ChipIcon(entry), width, ChipActive(entry), height)

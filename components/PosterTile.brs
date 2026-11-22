@@ -9,6 +9,8 @@
 sub init()
     m.artless = m.top.FindNode("artless")
     m.poster = m.top.FindNode("poster")
+    m.posterFocusIn = m.top.FindNode("posterFocusIn")
+    m.posterFocusOut = m.top.FindNode("posterFocusOut")
     m.posterLoader = m.top.FindNode("posterLoader")
     m.tileBg = m.top.FindNode("tileBg")
     m.titleText = m.top.FindNode("titleText")
@@ -60,6 +62,8 @@ sub ApplyTileSize()
 
     m.poster.width = w
     m.poster.height = h
+    m.poster.scaleRotateCenter = [w / 2, h / 2]
+    m.poster.scale = [1.0, 1.0]
     m.poster.loadWidth = w
     m.poster.loadHeight = h
     m.tileBg.width = w
@@ -102,6 +106,13 @@ sub UpdateLook()
 end sub
 
 sub onItemHasFocusChanged()
+    if m.top.itemHasFocus
+        if m.posterFocusOut <> invalid then m.posterFocusOut.control = "stop"
+        if m.posterFocusIn <> invalid then m.posterFocusIn.control = "start"
+    else
+        if m.posterFocusIn <> invalid then m.posterFocusIn.control = "stop"
+        if m.posterFocusOut <> invalid then m.posterFocusOut.control = "start"
+    end if
     UpdateLook()
 end sub
 

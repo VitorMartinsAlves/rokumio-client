@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="BrowseHero" extends="Group">
     <interface>
-        <field id="posterLoadWidth" type="integer" value="1120" />
-        <field id="posterLoadHeight" type="integer" value="630" />
+        <field id="posterLoadWidth" type="integer" value="1600" />
+        <field id="posterLoadHeight" type="integer" value="900" />
         <function name="SetStores" />
         <function name="Render" />
         <function name="Clear" />
@@ -23,37 +23,37 @@
         <!-- Previous hero background kept visible while next loads/fades in. -->
         <Poster
             id="heroPosterPrev"
-            translation="[800, 0]"
-            width="1120"
-            height="630"
-            loadWidth="1120"
-            loadHeight="630"
+            translation="[0, 0]"
+            width="1920"
+            height="1080"
+            loadWidth="1600"
+            loadHeight="900"
             loadDisplayMode="scaleToZoom"
             opacity="0.0"
             visible="false" />
         <Poster
             id="heroPoster"
-            translation="[800, 0]"
-            width="1120"
-            height="630"
-            loadWidth="1120"
-            loadHeight="630"
+            translation="[0, 0]"
+            width="1920"
+            height="1080"
+            loadWidth="1600"
+            loadHeight="900"
             loadDisplayMode="scaleToZoom"
             opacity="1.0" />
         <Poster
             id="heroFadeLR"
-            translation="[800, 0]"
-            width="360"
-            height="630"
+            translation="[0, 0]"
+            width="1280"
+            height="1080"
             loadWidth="256"
             loadHeight="1"
             loadDisplayMode="scaleToFill"
             uri="pkg:/images/hero_fade_lr.png" />
         <Poster
             id="heroFadeBT"
-            translation="[800, 420]"
-            width="1120"
-            height="210"
+            translation="[0, 455]"
+            width="1920"
+            height="625"
             loadWidth="1"
             loadHeight="210"
             loadDisplayMode="scaleToFill"
@@ -66,28 +66,28 @@
             color="0x00000000" />
         <Poster
             id="heroLogo"
-            translation="[162, 48]"
-            width="820"
-            height="460"
-            loadWidth="560"
-            loadHeight="360"
+            translation="[136, 126]"
+            width="680"
+            height="160"
+            loadWidth="640"
+            loadHeight="160"
             loadDisplayMode="scaleToFit"
             visible="false" />
 
         <Label
             id="heroTitle"
-            translation="[162, 88]"
-            width="680"
+            translation="[136, 152]"
+            width="760"
             height="90"
             wrap="true"
             font="font:LargeBoldSystemFont" />
         <Label
             id="heroMeta"
-            translation="[166, 192]"
+            translation="[140, 250]"
             width="900"
-            height="34"
+            height="36"
             font="font:SmallSystemFont" />
-        <Group id="heroRating" translation="[166, 232]" visible="false">
+        <Group id="heroRating" translation="[140, 294]" visible="false">
             <Poster
                 id="heroImdbLogo"
                 width="64"
@@ -106,15 +106,15 @@
         </Group>
         <Label
             id="heroGenres"
-            translation="[166, 283]"
+            translation="[140, 342]"
             width="860"
             height="36"
             font="font:SmallSystemFont" />
         <Label
             id="heroDescription"
-            translation="[166, 333]"
-            width="620"
-            height="185"
+            translation="[140, 390]"
+            width="700"
+            height="108"
             wrap="true"
             vertAlign="top"
             font="font:MediumSystemFont" />
