@@ -80,7 +80,7 @@ end sub
 
 sub ApplyHeroTheme()
     t = Theme()
-    if m.heroScrim <> invalid then m.heroScrim.color = t.scrim
+    if m.heroScrim <> invalid then m.heroScrim.color = t.heroScrim
     if m.heroTitle <> invalid then m.heroTitle.color = t.textPrimary
     if m.heroMeta <> invalid then m.heroMeta.color = t.textSecondary
     if m.heroRatingText <> invalid then m.heroRatingText.color = t.accentWarm
