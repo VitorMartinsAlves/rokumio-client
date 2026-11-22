@@ -44,6 +44,8 @@ function Theme() as object
             borderSoft: "0xFFFFFF26"
             navBg: "0x060806C0"
             navBgExpanded: "0x060806FF"
+            navFocusBg: "0x1B3328E6"
+            navFocusMarker: "0x5BEF95FF"
             navIdle: "0x66736AFF"
             navLabelActive: "0xD5DED8FF"
             toastBg: "0x101813D9"
