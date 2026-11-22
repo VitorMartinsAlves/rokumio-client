@@ -28,7 +28,7 @@
 
     <children>
         <Rectangle id="libraryBg" width="1920" height="1080" color="0x0" />
-        <BrowseHero id="hero" posterLoadWidth="270" posterLoadHeight="405" />
+        <BrowseHero id="hero" posterLoadWidth="1120" posterLoadHeight="630" />
         <Label
             id="libraryStatus"
             translation="[150, 20]"
