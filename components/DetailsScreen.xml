@@ -31,6 +31,24 @@
         <Poster id="bgPoster" translation="[0, 0]" width="1920" height="1080" loadWidth="1120" loadHeight="630" loadDisplayMode="scaleToZoom" opacity="0" />
         <Poster id="bgPosterFull" translation="[0, 0]" width="1920" height="1080" loadWidth="1920" loadHeight="1080" loadDisplayMode="scaleToZoom" opacity="0" visible="false" />
         <Rectangle id="bgScrim" width="1920" height="1080" />
+        <Poster
+            id="detailsFadeLR"
+            translation="[0, 0]"
+            width="1280"
+            height="1080"
+            loadWidth="256"
+            loadHeight="1"
+            loadDisplayMode="scaleToFill"
+            uri="pkg:/images/hero_fade_lr.png" />
+        <Poster
+            id="detailsFadeBT"
+            translation="[0, 455]"
+            width="1920"
+            height="625"
+            loadWidth="1"
+            loadHeight="210"
+            loadDisplayMode="scaleToFill"
+            uri="pkg:/images/hero_fade_bt.png" />
 
         <PosterLoader id="bgPosterLoader" />
         <PosterLoader id="bgFullLoader" />
@@ -45,41 +63,41 @@
 
         <Poster
             id="heroLogo"
-            translation="[162, 48]"
-            width="820"
-            height="460"
-            loadWidth="560"
-            loadHeight="360"
+            translation="[136, 126]"
+            width="680"
+            height="160"
+            loadWidth="640"
+            loadHeight="160"
             loadDisplayMode="scaleToFit"
             visible="false" />
         <Label
             id="detailName"
-            translation="[162, 88]"
-            width="680"
+            translation="[136, 152]"
+            width="760"
             height="90"
             wrap="true"
             font="font:LargeBoldSystemFont" />
         <Label
             id="detailType"
-            translation="[166, 192]"
+            translation="[140, 250]"
             width="900"
-            height="34"
+            height="36"
             font="font:SmallSystemFont" />
-        <Group id="detailRating" translation="[166, 232]" visible="false">
+        <Group id="detailRating" translation="[140, 294]" visible="false">
             <Poster id="detailImdbLogo" width="64" height="32" loadWidth="64" loadHeight="32" loadDisplayMode="scaleToFit" uri="pkg:/images/imdb.png" />
             <Label id="detailRatingText" translation="[76, 0]" width="110" height="36" vertAlign="center" font="font:LargeBoldSystemFont" />
         </Group>
         <Label
             id="detailGenres"
-            translation="[166, 283]"
+            translation="[140, 342]"
             width="860"
             height="36"
             font="font:SmallSystemFont" />
         <Label
             id="detailDesc"
-            translation="[166, 333]"
-            width="720"
-            height="265"
+            translation="[140, 390]"
+            width="700"
+            height="108"
             wrap="true"
             vertAlign="top"
             font="font:MediumSystemFont" />
@@ -87,6 +105,6 @@
         <!-- The shared chips row: a ChipsRow (standalone focusable tiles,
              the rail model) — the row owns Left/Right/OK and publishes OK
              through its `selection` field, which onChipSelected dispatches. -->
-        <ChipsRow id="chipsRow" translation="[162, 610]" />
+        <ChipsRow id="chipsRow" translation="[136, 520]" />
     </children>
 </component>
