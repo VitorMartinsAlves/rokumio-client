@@ -305,6 +305,7 @@ sub UpdateHomeHero(position as dynamic)
     metas = m.gridRows[rowIndex].metas
     if metas = invalid or itemIndex < 0 or itemIndex >= metas.Count() then return
     meta = metas[itemIndex]
+    UpdateHeroActions(rowIndex, itemIndex, meta)
     if meta <> invalid and meta.seeMore = true
         ' Keep the previously shown hero artwork/details; "see more" is an action,
         ' not a title to preview.
@@ -999,7 +1000,6 @@ sub FocusTopNav()
     if m.topNav.GetChildCount() = 0 then return
     m.heroActions.callFunc("Blur")
     m.topNav.callFunc("FocusChip", m.navRememberedIndex)
-    m.topNav.SetFocus(true)
     m.homeFocusArea = "topNav"
 end sub
 
@@ -1010,7 +1010,6 @@ sub FocusHeroActions()
     end if
     m.topNav.callFunc("Blur")
     m.heroActions.callFunc("FocusChip", 0)
-    m.heroActions.SetFocus(true)
     m.homeFocusArea = "heroActions"
 end sub
 
