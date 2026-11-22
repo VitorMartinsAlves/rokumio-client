@@ -43,7 +43,7 @@
             drawFocusFeedback="true"
             itemComponentName="PosterTile" />
 
-        <FilterBar id="filterBar" translation="[90, 552]" chipItemWidth="320" chipItemHeight="48" menuItemHeight="48" />
+        <FilterBar id="filterBar" translation="[96, 552]" chipItemWidth="320" chipItemHeight="48" menuItemHeight="48" />
 
         <!-- Contextual shortcut hint: the asterisk keycap, one self-contained
              image. It sits left of the first filter chip and appears only
