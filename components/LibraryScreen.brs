@@ -36,7 +36,7 @@ sub init()
 
     m.chunk = 6
     ' Grid budget matches Discover: 6 standard poster tiles per row.
-    m.rowWidth = 1800
+    m.rowWidth = 1728
     m.rowGap = 18
     m.typeFilter = "all"
     m.sort = "recent"
