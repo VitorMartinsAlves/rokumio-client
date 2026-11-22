@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="BrowseHero" extends="Group">
     <interface>
-        <field id="posterLoadWidth" type="integer" value="1120" />
-        <field id="posterLoadHeight" type="integer" value="630" />
+        <field id="posterLoadWidth" type="integer" value="1600" />
+        <field id="posterLoadHeight" type="integer" value="900" />
         <function name="SetStores" />
         <function name="Render" />
         <function name="Clear" />
@@ -26,8 +26,8 @@
             translation="[0, 0]"
             width="1920"
             height="1080"
-            loadWidth="1120"
-            loadHeight="630"
+            loadWidth="1600"
+            loadHeight="900"
             loadDisplayMode="scaleToZoom"
             opacity="0.0"
             visible="false" />
@@ -36,8 +36,8 @@
             translation="[0, 0]"
             width="1920"
             height="1080"
-            loadWidth="1120"
-            loadHeight="630"
+            loadWidth="1600"
+            loadHeight="900"
             loadDisplayMode="scaleToZoom"
             opacity="1.0" />
         <Poster
