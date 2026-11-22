@@ -1,7 +1,7 @@
 ' RailTile — icon+name tile for the Home left rail. The rail is a Group of
 ' these, focused one at a time. Collapsed, the icon sits centered; expanded,
-' it slides left and the section name fades in on every tile. Focus is icon
-' color plus the name's weight — no tile background.
+' it slides left and the section name fades in on every tile. Focus uses a
+' highlighted surface, a slim accent marker and a brighter icon/label.
 
 sub init()
     m.glyph = m.top.FindNode("railGlyph")
