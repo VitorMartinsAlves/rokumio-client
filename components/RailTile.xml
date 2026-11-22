@@ -16,6 +16,25 @@
     <children>
         <Timer id="stepTimer" duration="0.016" repeat="true" />
 
+        <!-- A persistent surface makes the active destination obvious from
+             couch distance; the accent marker remains visible as the rail
+             expands and collapses. -->
+        <Poster
+            id="railFocusBg"
+            translation="[2, 0]"
+            width="314"
+            height="80"
+            loadWidth="72"
+            loadHeight="72"
+            loadDisplayMode="scaleToFill"
+            uri="pkg:/images/chip.9.png"
+            opacity="0.0" />
+        <Rectangle
+            id="railFocusMarker"
+            translation="[6, 18]"
+            width="4"
+            height="44"
+            opacity="0.0" />
         <Poster
             id="railGlyph"
             width="48"
@@ -31,7 +50,7 @@
                 height="48"
                 vertAlign="center"
                 scaleRotateCenter="[0, 40]"
-                font="font:MediumSystemFont"
+                font="font:MediumBoldSystemFont"
                 visible="false" />
     </children>
 </component>

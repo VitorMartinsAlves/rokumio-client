@@ -42,7 +42,8 @@
             "airDateAired": "Aired {date}",
             "airDatePremieres": "Premieres {date}",
             "episodeMarker": "S{season}E{episode}",
-            "other": "Other"
+            "other": "Other",
+            "filtersShortcut": "Options · filters"
         },
         "settings": {
             "title": "Settings",
@@ -393,7 +394,8 @@
             "airDateAired": "Emitido el {date}",
             "airDatePremieres": "Estreno el {date}",
             "episodeMarker": "T{season}E{episode}",
-            "other": "Otros"
+            "other": "Otros",
+            "filtersShortcut": "Opciones · filtros"
         },
         "settings": {
             "title": "Ajustes",

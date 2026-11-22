@@ -33,9 +33,9 @@
 
         <RowList
             id="discoverGrid"
-            translation="[90, 632]"
+            translation="[96, 632]"
             numRows="1"
-            itemSize="[1800, 405]"
+            itemSize="[1728, 405]"
             itemSpacing="[0, 18]"
             rowItemSize="[[270, 405]]"
             rowItemSpacing="[[18, 0]]"
@@ -43,7 +43,7 @@
             drawFocusFeedback="true"
             itemComponentName="PosterTile" />
 
-        <FilterBar id="filterBar" translation="[90, 552]" chipItemWidth="320" chipItemHeight="48" menuItemHeight="48" />
+        <FilterBar id="filterBar" translation="[96, 552]" chipItemWidth="320" chipItemHeight="48" menuItemHeight="48" />
 
         <!-- Contextual shortcut hint: the asterisk keycap, one self-contained
              image. It sits left of the first filter chip and appears only
@@ -51,7 +51,7 @@
              by the RowList and the asterisk key is the only way back. -->
         <Poster
             id="filtersHint"
-            translation="[30, 554]"
+            translation="[1448, 554]"
             width="44"
             height="44"
             loadWidth="44"
@@ -60,11 +60,25 @@
             uri="pkg:/images/asterisk.png"
             visible="false"
             opacity="0" />
+        <Label
+            id="filtersHintLabel"
+            translation="[1504, 558]"
+            width="300"
+            height="32"
+            font="font:MediumSystemFont"
+            vertAlign="center"
+            visible="false"
+            opacity="0" />
 
         <Animation id="filtersHintFade" duration="0.2" repeat="false" easeFunction="linear">
             <FloatFieldInterpolator
                 id="filtersHintFadeInterp"
                 fieldToInterp="filtersHint.opacity"
+                key="[0.0, 1.0]"
+                keyValue="[0.0, 1.0]" />
+            <FloatFieldInterpolator
+                id="filtersHintLabelFadeInterp"
+                fieldToInterp="filtersHintLabel.opacity"
                 key="[0.0, 1.0]"
                 keyValue="[0.0, 1.0]" />
         </Animation>

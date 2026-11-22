@@ -92,7 +92,13 @@ sub ApplyTileSize()
 end sub
 
 sub UpdateLook()
-    if m.top.rowHasFocus then m.top.opacity = 1.0 else m.top.opacity = 0.55
+    ' Keep neighboring artwork readable while still separating the active
+    ' tile from the rest of its row. The list's native focus ring supplies
+    ' the outline; opacity adds a quieter hierarchy between rows and items.
+    opacity = 0.58
+    if m.top.rowHasFocus then opacity = 0.80
+    if m.top.itemHasFocus then opacity = 1.0
+    m.top.opacity = opacity
 end sub
 
 sub onItemHasFocusChanged()
