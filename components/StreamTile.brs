@@ -122,7 +122,10 @@ sub UpdateLook()
         m.border.blendColor = t.borderSoft
         m.face.blendColor = t.tileFace
     end if
-    if m.top.rowHasFocus then m.top.opacity = 1.0 else m.top.opacity = 0.55
+    opacity = 0.58
+    if m.top.rowHasFocus then opacity = 0.80
+    if m.top.itemHasFocus then opacity = 1.0
+    m.top.opacity = opacity
 
     if m.top.itemHasFocus
         m.measureTimer.control = "start"
