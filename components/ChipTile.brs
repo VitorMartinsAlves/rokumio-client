@@ -9,6 +9,7 @@ sub init()
     m.iconBg = m.top.FindNode("iconBg")
     m.icon = m.top.FindNode("chipIcon")
     m.text = m.top.FindNode("chipText")
+    m.activeLine = m.top.FindNode("chipActiveLine")
     m.active = false
     m.tileWidth = 0
     m.tileHeight = 72
@@ -84,12 +85,41 @@ sub ApplyLayout(hasIcon as boolean, hasText as boolean)
         m.text.visible = true
     end if
     if hasIcon then m.text.horizAlign = "left"
+    if m.activeLine <> invalid
+        m.activeLine.width = m.tileWidth - 28
+        m.activeLine.translation = [14, m.tileHeight - 5]
+    end if
 end sub
 
 sub ApplyState()
     t = Theme()
     focused = (m.top.focused = true) or (m.top.itemHasFocus = true)
     rowLit = focused or (m.top.rowFocused = true) or (m.top.rowHasFocus = true)
+
+    ' The primary navigation uses a quiet text-first treatment with a short
+    ' active underline. Filter chips and dropdown rows keep their pill surface.
+    if m.top.navStyle = true
+        m.iconBg.blendColor = "0x00000000"
+        if focused
+            m.icon.blendColor = t.textPrimary
+            m.text.color = t.textPrimary
+        else if m.active
+            m.icon.blendColor = t.accentFocus
+            m.text.color = t.accentFocus
+        else
+            m.icon.blendColor = t.textSecondary
+            m.text.color = t.textSecondary
+        end if
+        if m.activeLine <> invalid
+            m.activeLine.color = t.accentFocus
+            m.activeLine.opacity = 0.0
+            if m.active or focused then m.activeLine.opacity = 1.0
+        end if
+        m.top.opacity = 1.0
+        return
+    end if
+
+    if m.activeLine <> invalid then m.activeLine.opacity = 0.0
     if focused
         m.iconBg.blendColor = t.textPrimary
         m.icon.blendColor = t.screenBg
