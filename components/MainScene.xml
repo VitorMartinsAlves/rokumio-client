@@ -86,6 +86,20 @@
             <DiscoverScreen id="discoverScreen" visible="false" />
             <LibraryScreen id="libraryScreen" visible="false" />
             <PlayerScreen id="playerScreen" visible="false" />
+            <!-- A short reveal transition smooths screen changes without
+                 delaying focus or remote input. -->
+            <Rectangle
+                id="screenTransitionScrim"
+                width="1920"
+                height="1080"
+                color="0x070B0AFF"
+                opacity="0.0" />
+            <Animation id="screenTransitionAnim" duration="0.18" repeat="false" easeFunction="linear">
+                <FloatFieldInterpolator
+                    fieldToInterp="screenTransitionScrim.opacity"
+                    key="[0.0, 1.0]"
+                    keyValue="[0.88, 0.0]" />
+            </Animation>
         </Group>
 
         <!-- Transient notifications. The toast owns its display nodes, state
