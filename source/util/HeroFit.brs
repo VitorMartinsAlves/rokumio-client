@@ -8,7 +8,7 @@ function HeroFit(bitmapWidth as integer, bitmapHeight as integer) as object
     if bitmapWidth <= 0 or bitmapHeight <= 0 then return invalid
     ratio = bitmapWidth / bitmapHeight
     maxWidth = 640
-    maxHeight = 190
+    maxHeight = 115
     logoWidth = ratio * maxHeight
     if logoWidth > maxWidth then logoWidth = maxWidth
     logoHeight = logoWidth / ratio
