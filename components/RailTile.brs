@@ -6,6 +6,8 @@
 sub init()
     m.glyph = m.top.FindNode("railGlyph")
     m.label = m.top.FindNode("railLabel")
+    m.focusBg = m.top.FindNode("railFocusBg")
+    m.focusMarker = m.top.FindNode("railFocusMarker")
     m.stepTimer = m.top.FindNode("stepTimer")
     m.glyphX = 32
     m.targetX = 32
@@ -23,9 +25,19 @@ end sub
 sub ApplyState()
     t = Theme()
     if m.top.focused
-        m.glyph.blendColor = t.accent
-        m.label.color = t.navLabelActive
+        if m.focusBg <> invalid
+            m.focusBg.blendColor = t.navFocusBg
+            m.focusBg.opacity = 1.0
+        end if
+        if m.focusMarker <> invalid
+            m.focusMarker.color = t.navFocusMarker
+            m.focusMarker.opacity = 1.0
+        end if
+        m.glyph.blendColor = t.accentFocus
+        m.label.color = t.textPrimary
     else
+        if m.focusBg <> invalid then m.focusBg.opacity = 0.0
+        if m.focusMarker <> invalid then m.focusMarker.opacity = 0.0
         m.glyph.blendColor = t.navIdle
         m.label.color = t.navIdle
     end if
