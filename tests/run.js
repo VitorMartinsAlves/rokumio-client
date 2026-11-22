@@ -4967,7 +4967,8 @@ const ADDON_PAYLOAD_ROOTS = [
 const ADDON_TEXT_READ_EXCEPTIONS = {
     address: 'our own record field — the transport base derived from a URL the app validated, never an add-on manifest value',
     metaId: 'our own library/progress record field (Stremio API + our own writes), not an add-on meta field',
-    addonName: 'our own key on the catalog descriptor the app builds; the value is addon.name, which IS in the table'
+    addonName: 'our own key on the catalog descriptor the app builds; the value is addon.name, which IS in the table',
+    destination: 'our own Home top-navigation entry field built in BuildTopNav(), not an add-on payload field'
 };
 
 function checkAddonJsonContract() {
