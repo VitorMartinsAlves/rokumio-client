@@ -85,8 +85,8 @@
             id="heroMeta"
             translation="[166, 192]"
             width="900"
-            height="30"
-            font="font:SmallerSystemFont" />
+            height="34"
+            font="font:SmallSystemFont" />
         <Group id="heroRating" translation="[166, 232]" visible="false">
             <Poster
                 id="heroImdbLogo"
@@ -108,8 +108,8 @@
             id="heroGenres"
             translation="[166, 283]"
             width="860"
-            height="32"
-            font="font:SmallerSystemFont" />
+            height="36"
+            font="font:SmallSystemFont" />
         <Label
             id="heroDescription"
             translation="[166, 333]"
@@ -117,7 +117,7 @@
             height="185"
             wrap="true"
             vertAlign="top"
-            font="font:SmallSystemFont" />
+            font="font:MediumSystemFont" />
 
         <Animation id="heroPosterFadeAnim" duration="0.2" repeat="false" easeFunction="linear">
             <FloatFieldInterpolator
