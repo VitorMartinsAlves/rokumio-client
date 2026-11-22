@@ -972,13 +972,13 @@ end sub
 ' existing ScreenStack request contract.
 sub BuildTopNav()
     entries = [
-        { title: Lang("home", "homeNav"), screen: "homeScreen", width: 112 }
-        { title: Lang("home", "railDiscover"), screen: "discoverScreen", width: 142 }
-        { title: Lang("home", "railLibrary"), screen: "libraryScreen", width: 126 }
-        { title: Lang("home", "railSearch"), screen: "searchScreen", width: 112 }
-        { title: Lang("home", "railAddons"), screen: "addonsScreen", width: 128 }
-        { title: Lang("home", "railSettings"), screen: "settingsScreen", width: 132 }
-        { title: Lang("home", "railSupport"), screen: "supportDialog", width: 126, dialog: true }
+        { title: Lang("home", "homeNav"), destination: "homeScreen", width: 112 }
+        { title: Lang("home", "railDiscover"), destination: "discoverScreen", width: 142 }
+        { title: Lang("home", "railLibrary"), destination: "libraryScreen", width: 126 }
+        { title: Lang("home", "railSearch"), destination: "searchScreen", width: 112 }
+        { title: Lang("home", "railAddons"), destination: "addonsScreen", width: 128 }
+        { title: Lang("home", "railSettings"), destination: "settingsScreen", width: 132 }
+        { title: Lang("home", "railSupport"), destination: "supportDialog", width: 126, dialog: true }
     ]
     m.topNavEntries = entries
     if m.navRememberedIndex >= entries.Count() then m.navRememberedIndex = 0
@@ -989,7 +989,7 @@ sub BuildTopNav()
             title: entry.title
             width: entry.width
             height: 58
-            active: (entry.screen = "homeScreen")
+            active: (entry.destination = "homeScreen")
         })
     end for
     m.topNav.callFunc("SetChips", chips)
@@ -1018,7 +1018,7 @@ sub SelectTopNavEntry()
     if index < 0 or index >= m.topNavEntries.Count() then return
     m.navRememberedIndex = index
     entry = m.topNavEntries[index]
-    if entry.screen = "homeScreen"
+    if entry.destination = "homeScreen"
         m.topNav.callFunc("Blur")
         m.heroActions.callFunc("Blur")
         if m.catalog.content <> invalid and m.catalog.numRows > 0 then m.catalog.jumpToRowItem = [0, 0]
@@ -1026,7 +1026,7 @@ sub SelectTopNavEntry()
         m.homeFocusArea = "catalog"
         return
     end if
-    request = { screen: entry.screen, params: {} }
+    request = { screen: entry.destination, params: {} }
     if entry.dialog = true then request.dialog = true
     m.top.pushRequest = request
 end sub
